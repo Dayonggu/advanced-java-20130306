@@ -10,20 +10,6 @@ public class ShapesTest {
 
 	private static final Random RANDOM = new Random();
 
-	/**
-	 * TODO
-	 *    - ??? substitutability?
-	 */
-
-	@Test
-	public void squaresMustRemainSquare() {
-		for (int i = 0; i < 100; i++) {
-			Square s = arbitrarySquare();
-			s.setWidth(RANDOM.nextInt(50));
-			assertEquals(s.getWidth(), s.getHeight());
-		}
-	}
-
 	@Test
 	public void equalRectanglesMustBeEqual() {
 		for (int i = 0; i < 100; i++) {
@@ -34,13 +20,20 @@ public class ShapesTest {
 		}
 	}
 
+	@Test
+	public void rectangleCopyWithWidthMustNotChangeHeight() {
+		for (int i = 0; i < 100; i++) {
+			Rectangle
+				r1 = arbitraryRectangle(),
+				r2 = r1.copyWithWidth(RANDOM.nextInt(50));
+			assertEquals(r2.getHeight(), r1.getHeight());
+		}
+	}
+
 	private static Rectangle arbitraryRectangle() {
 		return RANDOM.nextBoolean()
 			? new Rectangle(RANDOM.nextInt(50), RANDOM.nextInt(50))
-			: arbitrarySquare();
+			: new Square(RANDOM.nextInt(50));
 	}
 
-	private static Square arbitrarySquare() {
-		return new Square(RANDOM.nextInt(50));
-	}
 }
