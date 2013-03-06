@@ -1,41 +1,62 @@
 package training.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * List(1, 2, 3)
- *   .head() ==> 1
- *   .tail() ==> List(2, 3)
- */
 public class ImmutableList<E> {
 
-	private final List<E> list;
+	private final E head;
+	private final ImmutableList<E> tail;
 
-	private ImmutableList(List<E> list) {
-		this.list = list;
+	private ImmutableList(E head, ImmutableList<E> tail) {
+		this.head = head;
+		this.tail = tail;
 	}
 
 	public ImmutableList() {
-		this(new ArrayList<E>());
+		this(null, null);
 	}
 
 	public ImmutableList<E> prepend(E element) {
-		List<E> list = new ArrayList<E>();
-		list.add(element);
-		list.addAll(this.list);
-		return new ImmutableList<E>(list);
+		return new ImmutableList<E>(element, this);
 	}
 
 	public E head() {
-		return list.isEmpty() ? null : list.get(0);
+		return head;
 	}
 
 	public ImmutableList<E> tail() {
-		if (list.isEmpty())
-			return null;
-		List<E> list = this.list.subList(1, this.list.size());
-		return new ImmutableList<E>(list);
+		return tail;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((head == null) ? 0 : head.hashCode());
+		result = prime * result + ((tail == null) ? 0 : tail.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+
+		@SuppressWarnings("rawtypes")
+		ImmutableList other = (ImmutableList) obj;
+		if (head == null) {
+			if (other.head != null)
+				return false;
+		} else if (!head.equals(other.head))
+			return false;
+		if (tail == null) {
+			if (other.tail != null)
+				return false;
+		} else if (!tail.equals(other.tail))
+			return false;
+		return true;
 	}
 
 }
