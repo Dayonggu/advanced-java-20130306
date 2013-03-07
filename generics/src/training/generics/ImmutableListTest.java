@@ -15,10 +15,20 @@ public class ImmutableListTest {
 	private static final ImmutableList<Integer> TWO_FOUR_SIX =
 			new ImmutableList<Integer>().prepend(6).prepend(4).prepend(2);
 
+	private static final ImmutableList<String> ONE_TWO_THREE_STRINGS =
+			new ImmutableList<String>().prepend("3").prepend("2").prepend("1");
+
 	private static final Function<Integer, Integer> TIMES_TWO =
 			new Function<Integer, Integer>() {
 				public Integer apply(Integer input) {
 					return input * 2;
+				}
+			};
+
+	private static final Function<Object, String> TO_STRING =
+			new Function<Object, String>() {
+				public String apply(Object input) {
+					return input.toString();
 				}
 			};
 
@@ -36,5 +46,6 @@ public class ImmutableListTest {
 	@Test
 	public void mapMustWork() {
 		assertEquals(TWO_FOUR_SIX, ONE_TWO_THREE.map(TIMES_TWO));
+		assertEquals(ONE_TWO_THREE_STRINGS, ONE_TWO_THREE.map(TO_STRING));
 	}
 }

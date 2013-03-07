@@ -30,8 +30,10 @@ public class ImmutableList<E> {
 		return tail == null ? 0 : 1 + tail.length();
 	}
 
-	public ImmutableList<E> map(Function<E, E> fn) {
-		return tail == null ? this : tail.map(fn).prepend(fn.apply(head));
+	public <O> ImmutableList<O> map(Function<? super E, ? extends O> fn) {
+		return tail == null
+			? new ImmutableList<O>()
+			: tail.map(fn).prepend(fn.apply(head));
 	}
 
 	@Override
