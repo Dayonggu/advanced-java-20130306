@@ -38,3 +38,5 @@ Variance is what often bites us when we mix parametric polymorphism with subtype
 * When `Box` consumes `A` (you can put an `A` in a `Box`), contravariance is safe:
   - lower-bounded wildcard: `Box<? super A>`
   - Java doesn't have lower-bounded type parameters :(
+
+Java arrays are covariant, which is a bad thing!

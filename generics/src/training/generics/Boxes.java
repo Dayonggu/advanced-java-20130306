@@ -13,6 +13,9 @@ public class Boxes {
 	Box<Dog> dogBox = new Box<Dog>(dog);
 	Box<Puppy> puppyBox = new Box<Puppy>(puppy);
 
+	Dog[] dogArray = new Dog[1];
+	Puppy[] puppyArray = new Puppy[1];
+
 	class Box<E> {
 		private E element;
 
@@ -45,6 +48,14 @@ public class Boxes {
 		return puppyBox.getElement();
 	}
 
+	Dog getDogFromArray(Dog[] dogArray) {
+		return dogArray[0];
+	}
+
+	void putDogInArray(Dog[] dogArray) {
+		dogArray[0] = new Dog();
+	}
+
 	@Test
 	public void dogsAndBoxes() {
 		putDogInBox(dogBox);
@@ -54,5 +65,9 @@ public class Boxes {
 		putPuppyInBox(puppyBox);
 		putPuppyInBox(dogBox); // AAAAH
 		getPuppyFromBox(puppyBox);
+
+		// arrays are covariant ... this is a bad thing.
+		getDogFromArray(puppyArray); // GOOD
+		putDogInArray(puppyArray); // BAD!!!
 	}
 }
