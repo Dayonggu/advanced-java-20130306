@@ -2,6 +2,8 @@ package training.concurrency;
 
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Fibonacci {
 
@@ -18,6 +20,17 @@ public class Fibonacci {
 	}
 
 	public static void main(String[] args) {
-		// TODO: on ten separate threads, print a randomFib
+		ExecutorService pool = Executors.newFixedThreadPool(10);
+		
+		for (int i = 0; i < 20; i++) {
+			Runnable task = new Runnable() {
+				public void run() {
+					System.out.println(randomFib());
+				}
+			};
+			pool.execute(task);
+		}
+
+		pool.shutdown();
 	}
 }
