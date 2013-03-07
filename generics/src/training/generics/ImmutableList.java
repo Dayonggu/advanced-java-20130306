@@ -26,6 +26,14 @@ public class ImmutableList<E> {
 		return tail;
 	}
 
+	public int length() {
+		return tail == null ? 0 : 1 + tail.length();
+	}
+
+	public ImmutableList<E> map(Function<E, E> fn) {
+		return null; // TODO
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
