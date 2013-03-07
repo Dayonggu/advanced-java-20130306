@@ -2,31 +2,35 @@ package training.concurrency;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Logger implements Runnable {
 
-	private final Queue<String> messages = new LinkedList<String>();
+	// Rule: never modify the queue in place, always copy!
+	private final AtomicReference<Queue<String>> messagesRef =
+		new AtomicReference<Queue<String>>(new LinkedList<String>());
 
 	public void log(String message) {
-		synchronized (this) {
-			messages.add(message);
-			notify();
-		}
+		Queue<String> oldMessages, newMessages;
+		do {
+			oldMessages = messagesRef.get();
+			newMessages = new LinkedList<String>(oldMessages);
+			newMessages.add(message);
+		} while (!messagesRef.compareAndSet(oldMessages, newMessages));
 	}
 
 	public void run() {
-		while (true) {
-			synchronized (this) {
-				if (!messages.isEmpty()) {
-					System.out.println(messages.remove());
-				} else {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						return;
-					}
-				}
-			}
+		lol:	 while (true) {
+			Queue<String> oldMessages, newMessages;
+			String message;
+			do {
+				oldMessages = messagesRef.get();
+				if (oldMessages.isEmpty())
+					continue lol;
+				newMessages = new LinkedList<String>(oldMessages);
+				message = newMessages.remove();
+			} while (!messagesRef.compareAndSet(oldMessages, newMessages));
+			System.out.println(message);
 		}
 	}
 
