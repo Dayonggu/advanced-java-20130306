@@ -21,16 +21,18 @@ public class Fibonacci {
 
 	public static void main(String[] args) {
 		ExecutorService pool = Executors.newFixedThreadPool(10);
-		
+		final Logger logger = new Logger();
+		pool.execute(logger);
+
 		for (int i = 0; i < 20; i++) {
 			Runnable task = new Runnable() {
 				public void run() {
-					System.out.println(randomFib());
+					logger.log(randomFib().toString());
 				}
 			};
 			pool.execute(task);
 		}
 
-		pool.shutdown();
+		// pool.shutdown();
 	}
 }
