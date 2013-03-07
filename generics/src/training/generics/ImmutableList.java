@@ -31,7 +31,7 @@ public class ImmutableList<E> {
 	}
 
 	public ImmutableList<E> map(Function<E, E> fn) {
-		return null; // TODO
+		return tail == null ? this : tail.map(fn).prepend(fn.apply(head));
 	}
 
 	@Override
