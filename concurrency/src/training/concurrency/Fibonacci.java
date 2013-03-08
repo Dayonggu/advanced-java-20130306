@@ -2,37 +2,36 @@ package training.concurrency;
 
 import java.math.BigInteger;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class Fibonacci {
+public class Fibonacci extends Actor {
 
 	private static final Random RANDOM = new Random();
+	private final Logger logger;
 
-	public static BigInteger fib(int n) {
+	public static enum Messages {
+		FIB
+	}
+
+	public Fibonacci(Logger logger) {
+		this.logger = logger;
+	}
+
+	@Override
+	public void receive(Object message) {
+		if (message == Messages.FIB) {
+			logger.tell(randomFib());
+			this.tell(Messages.FIB);
+		}
+	}
+
+	private static BigInteger fib(int n) {
 		return (n == 0 || n == 1)
 			? BigInteger.ONE
 			: fib(n-1).add(fib(n-2));
 	}
 
-	public static BigInteger randomFib() {
+	private static BigInteger randomFib() {
 		return fib(RANDOM.nextInt(35));
 	}
 
-	public static void main(String[] args) {
-		ExecutorService pool = Executors.newFixedThreadPool(10);
-		final Logger logger = new Logger();
-		pool.execute(logger);
-
-		while (true) {
-			Runnable task = new Runnable() {
-				public void run() {
-					logger.tell(randomFib().toString());
-				}
-			};
-			pool.execute(task);
-		}
-
-		// pool.shutdown();
-	}
 }
