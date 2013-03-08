@@ -44,7 +44,9 @@ public class Calculator {
 		}
 
 		Expression expression = parse(args[0]);
-		System.out.println(expression + " = " + expression.accept(new ExpressionEvaluator()));
+		System.out.format("%s = %s\n",
+			expression.accept(new ExpressionToInfix()),
+			expression.accept(new ExpressionEvaluator()));
 	}
 
 }

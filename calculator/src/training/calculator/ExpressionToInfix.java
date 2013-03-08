@@ -8,12 +8,15 @@ public class ExpressionToInfix implements ExpressionVisitor<String> {
 
 	@Override
 	public String visitNumber(NumberExpression expression) {
-		return null; // TODO
+		return String.valueOf(expression.value);
 	}
 
 	@Override
 	public String visitOperation(OperationExpression expression) {
-		return null; // TODO
+		return String.format("(%s %s %s)",
+			expression.lhs.accept(this),
+			expression.op,
+			expression.rhs.accept(this));
 	}
 
 }
