@@ -7,6 +7,10 @@ public abstract class Actor implements Runnable {
 
 	private final BlockingQueue<Object> messages = new LinkedBlockingQueue<Object>(20);
 
+	public static enum Messages {
+		SHUTDOWN
+	};
+
 	public void tell(Object message) {
 		try {
 			messages.put(message);
@@ -18,7 +22,10 @@ public abstract class Actor implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				receive(messages.take());
+				Object message = messages.take();
+				if (message == Messages.SHUTDOWN)
+					return;
+				receive(message);
 			} catch (InterruptedException e) {
 				return;
 			}
