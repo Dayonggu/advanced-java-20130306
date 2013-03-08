@@ -1,18 +1,8 @@
 package training.calculator;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 public class Calculator {
-
-	private static final Map<String, Operator> operators;
-	static {
-		operators = new HashMap<String, Operator>();
-		for (Operator op : Operator.values()) {
-			operators.put(op.toString(), op);
-		}
-	}
 
 	public static boolean handleNumber(String token, Stack<Integer> stack) {
 		try {
@@ -24,21 +14,12 @@ public class Calculator {
 	}
 
 	public static boolean handleOperator(String token, Stack<Integer> stack) {
-		if (token.equals("+")) {
-			int rhs = stack.pop(), lhs = stack.pop();
-			stack.push(lhs + rhs);
-		} else if (token.equals("-")) {
-			int rhs = stack.pop(), lhs = stack.pop();
-			stack.push(lhs - rhs);
-		} else if (token.equals("*")) {
-			int rhs = stack.pop(), lhs = stack.pop();
-			stack.push(lhs * rhs);
-		} else if (token.equals("/")) {
-			int rhs = stack.pop(), lhs = stack.pop();
-			stack.push(lhs / rhs);
-		} else {
+		Operator op = Operator.fromString(token);
+		if (op == null)
 			return false;
-		}
+
+		int rhs = stack.pop(), lhs = stack.pop();
+		stack.push(op.operate(lhs, rhs));
 		return true;
 	}
 
