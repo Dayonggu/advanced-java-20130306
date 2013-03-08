@@ -1,8 +1,18 @@
 package training.calculator;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class Calculator {
+
+	private static final Map<String, Operator> operators;
+	static {
+		operators = new HashMap<String, Operator>();
+		for (Operator op : Operator.values()) {
+			operators.put(op.toString(), op);
+		}
+	}
 
 	public static boolean handleNumber(String token, Stack<Integer> stack) {
 		try {
