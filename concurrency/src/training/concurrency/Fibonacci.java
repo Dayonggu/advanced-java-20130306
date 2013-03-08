@@ -27,7 +27,7 @@ public class Fibonacci {
 		while (true) {
 			Runnable task = new Runnable() {
 				public void run() {
-					logger.log(randomFib().toString());
+					logger.tell(randomFib().toString());
 				}
 			};
 			pool.execute(task);
