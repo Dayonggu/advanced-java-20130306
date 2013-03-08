@@ -44,7 +44,7 @@ public class Calculator {
 		}
 
 		Expression expression = parse(args[0]);
-		System.out.println(expression + " = " + new ExpressionEvaluator().process(expression));
+		System.out.println(expression + " = " + expression.accept(new ExpressionEvaluator()));
 	}
 
 }

@@ -13,6 +13,11 @@ public class OperationExpression implements Expression {
 	}
 
 	@Override
+	public <V> V accept(ExpressionVisitor<V> visitor) {
+		return visitor.visitOperation(this);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

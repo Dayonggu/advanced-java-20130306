@@ -8,6 +8,11 @@ public class NumberExpression implements Expression {
 	}
 
 	@Override
+	public <V> V accept(ExpressionVisitor<V> visitor) {
+		return visitor.visitNumber(this);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
