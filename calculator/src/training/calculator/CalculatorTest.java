@@ -34,7 +34,7 @@ public class CalculatorTest {
 
 	@Test
 	public void onePlusOneMustEqualTwo() {
-		assertEquals(2, Calculator.parse("1 1 +").calculate());
+		assertEquals(2, (int) new ExpressionEvaluator().process(Calculator.parse("1 1 +")));
 	}
 
 }

@@ -13,11 +13,6 @@ public class OperationExpression implements Expression {
 	}
 
 	@Override
-	public int calculate() {
-		return op.operate(lhs.calculate(), rhs.calculate());
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

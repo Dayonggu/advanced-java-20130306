@@ -8,11 +8,6 @@ public class NumberExpression implements Expression {
 	}
 
 	@Override
-	public int calculate() {
-		return value;
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
