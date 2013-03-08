@@ -32,19 +32,23 @@ public class Calculator {
 		return true;
 	}
 
+	public static int calculate(String expression) {
+		Stack<Integer> stack = new Stack<Integer>();
+		for (String token : expression.split(" ")) {
+			if (!handleOperator(token, stack) && !handleNumber(token, stack)) {
+				throw new IllegalArgumentException("invalid token: " + token);
+			}
+		}
+		return stack.pop();
+	}
+
 	public static void main(String[] args) {
 		if (args.length != 1) {
 			System.err.println("usage: Calculator <expression>");
 			return;
 		}
 
-		Stack<Integer> stack = new Stack<Integer>();
-		for (String token : args[0].split(" ")) {
-			if (!handleOperator(token, stack) && !handleNumber(token, stack)) {
-				throw new IllegalArgumentException("invalid token: " + token);
-			}
-		}
-		System.out.println(stack.pop());
+		System.out.println(calculate(args[0]));
 	}
 
 }
