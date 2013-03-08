@@ -1,32 +1,40 @@
 package training.calculator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Stack;
 
 import org.junit.Test;
 
+import training.calculator.expressions.Expression;
+import training.calculator.expressions.NumberExpression;
+import training.calculator.expressions.OperationExpression;
+
 public class CalculatorTest {
+
+	private static final NumberExpression ONE = new NumberExpression(1);
 
 	@Test
 	public void testHandleNumber() {
-		Stack<Integer> stack = new Stack<Integer>();
+		Stack<Expression> stack = new Stack<Expression>();
 		assertTrue(Calculator.handleNumber("1", stack));
-		assertEquals(1, (int) stack.pop());
+		assertEquals(ONE, stack.pop());
 	}
 
 	@Test
 	public void testHandleOperator() {
-		Stack<Integer> stack = new Stack<Integer>();
-		stack.push(1);
-		stack.push(1);
+		Stack<Expression> stack = new Stack<Expression>();
+		stack.push(ONE);
+		stack.push(ONE);
 		assertTrue(Calculator.handleOperator("+", stack));
-		assertEquals(2, (int) stack.pop());
+		assertEquals(new OperationExpression(ONE, ONE, Operator.ADD),
+				stack.pop());
 	}
 
 	@Test
 	public void onePlusOneMustEqualTwo() {
-		assertEquals(2, Calculator.calculate("1 1 +"));
+		assertEquals(2, Calculator.parse("1 1 +").calculate());
 	}
 
 }
