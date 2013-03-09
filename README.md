@@ -40,3 +40,14 @@ Variance is what often bites us when we mix parametric polymorphism with subtype
   - Java doesn't have lower-bounded type parameters :(
 
 Java arrays are covariant, which is a bad thing!
+
+Concurrency
+-----------
+
+* Avoid using locking primitives (`synchronized`, `wait/notify`, etc.).
+* Prefer message passing (no thread-shared memory), atomic variables or a combination of both.
+
+Resource Safety
+---------------
+
+Any time a resource (e.g. `Socket`, `InputStream`, etc.) is acquired, `try-finally` on the following line.

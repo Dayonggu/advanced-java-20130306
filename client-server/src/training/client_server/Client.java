@@ -7,11 +7,24 @@ import java.net.Socket;
 
 public class Client {
 
-	public static void main(String[] args) throws IOException {
-		Socket server = new Socket(InetAddress.getLocalHost(), 31337);
-		PrintWriter out = new PrintWriter(server.getOutputStream(), true);
-		out.println("hello, server!");
-		server.close();
+	public static void main(String[] args) {
+		try {
+			Socket server = new Socket(InetAddress.getLocalHost(), 31337);
+			try {
+				PrintWriter out = new PrintWriter(server.getOutputStream(), true);
+				try {
+					// BEGIN THE INTERESTING PART
+					out.println("hello, server!");
+					// END
+				} finally {
+					out.close();
+				}
+			} finally {
+				server.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
